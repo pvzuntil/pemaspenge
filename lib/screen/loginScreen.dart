@@ -208,6 +208,10 @@ class FormTextFieldEmail extends StatelessWidget {
       child: TextField(
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
+          hintText: 'Masukkan email ...',
+          hintStyle: GoogleFonts.poppins(
+            color: Colors.black.withAlpha(90),
+          ),
           contentPadding: EdgeInsets.symmetric(
             horizontal: 15,
             vertical: 10,
@@ -254,6 +258,10 @@ class FormTextFieldPassword extends StatelessWidget {
         obscureText: true,
         keyboardType: TextInputType.visiblePassword,
         decoration: InputDecoration(
+          hintText: 'Masukkan password ...',
+          hintStyle: GoogleFonts.poppins(
+            color: Colors.black.withAlpha(90),
+          ),
           contentPadding: EdgeInsets.symmetric(
             horizontal: 15,
             vertical: 10,
