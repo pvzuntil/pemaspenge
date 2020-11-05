@@ -12,3 +12,17 @@ class FormStyle {
         color: Colors.white,
       );
 }
+
+class ColorTheme {
+  static Color primaryColor() => Color(0xFF7638C2);
+}
+
+class DefaultTheme {
+  static TextStyle textStyle(scu) => GoogleFonts.poppins(
+        color: Colors.white,
+      );
+
+  static EdgeInsets paddingContainer(scu) => EdgeInsets.symmetric(
+        horizontal: scu.pixelRatio * 5,
+      );
+}

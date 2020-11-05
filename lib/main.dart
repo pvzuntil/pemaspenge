@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'PEMASPENGE',
-      initialRoute: '/login',
+      initialRoute: '/',
       getPages: [
         GetPage(name: '/', page: () => HomeScreen()),
         GetPage(
