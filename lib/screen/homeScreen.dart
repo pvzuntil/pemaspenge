@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pemaspenge/controller/homeController.dart';
 import 'package:pemaspenge/theme/style.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -10,6 +12,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  HomeController homeController = Get.put(HomeController());
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
@@ -19,7 +23,9 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.grey[300],
       body: CustomScrollView(
         slivers: [
-          AppBarHomePage(),
+          AppBarHomePage(
+            homeController: homeController,
+          ),
           BannerHomePage(scu: scu),
           ContentHomePage(scu: scu)
         ],
@@ -98,19 +104,16 @@ class CardBukuKas extends StatelessWidget {
                     children: [
                       Text(
                         'Nama Buku kas',
-                        style: DefaultTheme.textStyle(scu)
-                            .copyWith(
-                                color: Colors.black,
-                          fontSize: scu.pixelRatio *5,
-                                fontWeight: FontWeight.w600),
+                        style: DefaultTheme.textStyle(scu).copyWith(
+                            color: Colors.black,
+                            fontSize: scu.pixelRatio * 5,
+                            fontWeight: FontWeight.w600),
                       ),
                       Text(
                         'Rp. 5.000.000',
-                        style:
-                            DefaultTheme.textStyle(scu).copyWith(
-                          color: Colors.grey[600],
-                          fontSize: scu.pixelRatio *4
-                        ),
+                        style: DefaultTheme.textStyle(scu).copyWith(
+                            color: Colors.grey[600],
+                            fontSize: scu.pixelRatio * 4),
                       ),
                     ],
                   ),
@@ -126,21 +129,17 @@ class CardBukuKas extends StatelessWidget {
               children: [
                 Divider(),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10)
-                          .copyWith(bottom: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 10)
+                      .copyWith(bottom: 8),
                   child: Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             children: [
-                              Icon(Icons.arrow_drop_up,
-                                  color: Colors.green),
+                              Icon(Icons.arrow_drop_up, color: Colors.green),
                               Text(
                                 'Rp. 10.000.000',
                                 style: GoogleFonts.poppins(
@@ -152,8 +151,7 @@ class CardBukuKas extends StatelessWidget {
                         ],
                       ),
                       Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Row(
                             children: [
@@ -163,8 +161,7 @@ class CardBukuKas extends StatelessWidget {
                                   color: Colors.black,
                                 ),
                               ),
-                              Icon(Icons.arrow_drop_down,
-                                  color: Colors.red),
+                              Icon(Icons.arrow_drop_down, color: Colors.red),
                             ],
                           ),
                         ],
@@ -317,7 +314,10 @@ class DisplayTotalSaldo extends StatelessWidget {
 class AppBarHomePage extends StatelessWidget {
   const AppBarHomePage({
     Key key,
+    @required this.homeController,
   }) : super(key: key);
+
+  final HomeController homeController;
 
   @override
   Widget build(BuildContext context) {
@@ -339,6 +339,14 @@ class AppBarHomePage extends StatelessWidget {
           )
         ],
       ),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.exit_to_app),
+          onPressed: () => {
+            homeController.doLogout()
+          },
+        ),
+      ],
     );
   }
 }

@@ -14,6 +14,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   LoginController loginController = Get.put(LoginController());
+
   @override
   void initState() {
     super.initState();
@@ -67,8 +68,11 @@ class ImageIllustration extends StatelessWidget {
 }
 
 class Content extends StatelessWidget {
-  const Content({Key key, @required this.scu, @required this.loginController})
-      : super(key: key);
+  const Content({
+    Key key,
+    @required this.scu,
+    @required this.loginController,
+  }) : super(key: key);
 
   final ScreenUtil scu;
   final LoginController loginController;
@@ -112,10 +116,16 @@ class Content extends StatelessWidget {
             ),
             SizedBox(height: scu.screenHeight * 5 / 100),
             FormLabel(scu: scu, label: 'Email'),
-            FormTextFieldEmail(scu: scu),
+            FormTextFieldEmail(
+              scu: scu,
+              loginController: loginController,
+            ),
             SizedBox(height: scu.screenHeight * 2 / 100),
             FormLabel(scu: scu, label: 'Password'),
-            FormTextFieldPassword(scu: scu),
+            FormTextFieldPassword(
+              loginController: loginController,
+              scu: scu,
+            ),
             SizedBox(height: scu.screenHeight * 2 / 100),
             Container(
               width: double.infinity,
@@ -129,30 +139,53 @@ class Content extends StatelessWidget {
               ),
             ),
             SizedBox(height: scu.screenHeight * 2 / 100),
-            Container(
-              width: double.infinity,
-              child: RaisedButton(
-                onPressed: () => {
-                  Get.defaultDialog(
-                      title: 'asasa',
-                      barrierDismissible: false,
-                      cancel: RaisedButton(
-                        child: Text('asjas'),
-                        onPressed: () => loginController.closeDialogJajal(),
-                      ))
-                },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100)),
-                child: Text(
+            ButtonLogin(
+              loginController: loginController,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ButtonLogin extends StatelessWidget {
+  const ButtonLogin({
+    Key key,
+    @required this.loginController,
+  }) : super(key: key);
+
+  final LoginController loginController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      child: Obx(
+        () => RaisedButton(
+          onPressed: () => {
+            !loginController.isLoginProcess.value ?
+            loginController.doLogin() : null,
+          },
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+          child: !loginController.isLoginProcess.value
+              ? Text(
                   'Login',
                   style: GoogleFonts.poppins(
                     color: Colors.white,
                   ),
+                )
+              : Container(
+                  height: 20,
+                  width: 20,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                    ),
+                  ),
                 ),
-                color: Color(0xFF7638C2),
-              ),
-            )
-          ],
+          color: Color(0xFF7638C2),
         ),
       ),
     );
@@ -182,9 +215,11 @@ class FormTextFieldEmail extends StatelessWidget {
   const FormTextFieldEmail({
     Key key,
     @required this.scu,
+    @required this.loginController,
   }) : super(key: key);
 
   final ScreenUtil scu;
+  final LoginController loginController;
 
   @override
   Widget build(BuildContext context) {
@@ -206,6 +241,7 @@ class FormTextFieldEmail extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
       ),
       child: TextField(
+        controller: loginController.emailField,
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           hintText: 'Masukkan email ...',
@@ -231,8 +267,10 @@ class FormTextFieldPassword extends StatelessWidget {
   const FormTextFieldPassword({
     Key key,
     @required this.scu,
+    @required this.loginController,
   }) : super(key: key);
 
+  final LoginController loginController;
   final ScreenUtil scu;
 
   @override
@@ -255,6 +293,7 @@ class FormTextFieldPassword extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
       ),
       child: TextField(
+        controller: loginController.passwordField,
         obscureText: true,
         keyboardType: TextInputType.visiblePassword,
         decoration: InputDecoration(
