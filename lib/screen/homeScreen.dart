@@ -62,13 +62,23 @@ class ContentHomePage extends StatelessWidget {
               width: double.infinity,
               height: scu.pixelRatio * 40,
               child: Swiper(
-                itemBuilder: (BuildContext context, int index) {
-                  return CardBukuKas(scu: scu);
-                },
                 loop: false,
                 viewportFraction: .93,
                 itemCount: 5,
                 itemWidth: double.infinity,
+                itemBuilder: (BuildContext context, int index) {
+                  return index == 4
+                      ? Container(
+                          width: 10,
+                          height: 10,
+                          child: Icon(Icons.add),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.red
+                          ),
+                        )
+                      : CardBukuKas(scu: scu);
+                },
               ),
             )
           ],
@@ -342,9 +352,7 @@ class AppBarHomePage extends StatelessWidget {
       actions: [
         IconButton(
           icon: Icon(Icons.exit_to_app),
-          onPressed: () => {
-            homeController.doLogout()
-          },
+          onPressed: () => {homeController.doLogout()},
         ),
       ],
     );
